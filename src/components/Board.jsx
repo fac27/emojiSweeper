@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Tile from './Tile';
+import { getAdjacentBombs } from '../utils/boardHelpers';
 
 export default function Board({ gameState }) {
   const { width, height, numberOfBombs } = gameState;
@@ -59,43 +60,14 @@ function setUpBoard(numberOfTiles, bombArray) {
 
 function addAdjacentBombs(board, width, height) {
   for (let i = 0; i < board.length; i++) {
+
     const tile = board[i];
 
     if (tile.contents !== 'bomb') {
-      const adjacentBombs = getAdjacentBombs(board, i, width, height);
-      tile.contents = adjacentBombs;
+      const adjacentBombCount = getAdjacentBombs(board, i, width, height);
+      if (adjacentBombCount > 0) {
+        tile.contents = adjacentBombCount;
+      }
     }
   }
-}
-
-function getAdjacentBombs(board, index, width, height) {
-  const adjacentTiles = getAdjacentTiles(index, width, height);
-  let adjacentBombs = 0;
-
-  for (const tile of adjacentTiles) {
-    const tileObject = board[tile];
-
-    if (tileObject.contents === 'bomb') {
-      adjacentBombs++;
-    }
-  }
-
-  return adjacentBombs;
-}
-
-function getAdjacentTiles(index, width, height) {
-  // Set up array of steps through board to get to adjacent tiles
-  const allDirections = [
-    -1,
-    1,
-    width,
-    -width,
-    width - 1,
-    width + 1,
-    -width - 1,
-    -width + 1,
-  ];
-
-  // Set up array of adjacent tiles
-  const adjacentTiles = [];
 }
