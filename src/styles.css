@@ -24,3 +24,14 @@
     background-color: rgb(200, 200, 200);
     cursor: pointer;
 }
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(8, var(--tile-width));
+    grid-template-rows: repeat(8, var(--tile-width));
+    grid-gap: 0;
+    margin: 0 auto;
+    padding: 0;
+    width: calc(var(--tile-width) * 8);
+    height: calc(var(--tile-width) * 8);
+}

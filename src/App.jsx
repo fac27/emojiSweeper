@@ -1,5 +1,4 @@
 import './styles.css'
-import Tile from './components/Tile';
 import Board from './components/Board';
 
 const App = () => {
@@ -10,8 +9,6 @@ const App = () => {
       </p>
       <div>
         <Board />
-      <Tile state={{isBomb: true}} />
-      <Tile state={{isBomb: false}} />
       </div>
     </>
   );

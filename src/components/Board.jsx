@@ -1,22 +1,21 @@
 import { useState } from 'react';
-
-const boardArray = [];
+import Tile from './Tile';
 
 export default function Board() {
   const allBombs = generateBombLocations(8, 8, 10);
-  console.log(allBombs);
-  return <>Done</>;
+  const board = setUpBoard(64, allBombs);
+  const allTiles = board.map((tile, index) => (
+    <Tile state={tile} key={index}></Tile>
+  ));
+
+  return <div className="board">{allTiles}</div>;
 }
 
-
-
 function generateBombLocations(width, height, numberOfBombs) {
-
   const numberOfTiles = width * height;
   const allBombs = [];
 
   for (let i = 0; i < numberOfBombs; i++) {
-
     let randomTile = Math.floor(Math.random() * numberOfTiles);
 
     while (allBombs.includes(randomTile)) {
@@ -26,5 +25,19 @@ function generateBombLocations(width, height, numberOfBombs) {
     allBombs.push(randomTile);
   }
   return allBombs;
+}
 
+function setUpBoard(numberOfTiles, bombArray) {
+  const board = new Array(numberOfTiles);
+
+  for (let i = 0; i < board.length; i++) {
+    if (bombArray.includes(i)) {
+        board[i] = {contents: 'bomb'};
+    }
+    else {
+        board[i] = {contents: 'blank'};
+    }
+  }
+
+  return board;
 }
