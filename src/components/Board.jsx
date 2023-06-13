@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import Tile from './Tile';
+import styled from 'styled-components';
 
 export default function Board() {
   const allBombs = generateBombLocations(8, 8, 10);
@@ -8,7 +8,7 @@ export default function Board() {
     <Tile state={tile} key={index}></Tile>
   ));
 
-  return <div className="board">{allTiles}</div>;
+  return <BoardDiv className="board">{allTiles}</BoardDiv>;
 }
 
 function generateBombLocations(width, height, numberOfBombs) {
@@ -32,12 +32,22 @@ function setUpBoard(numberOfTiles, bombArray) {
 
   for (let i = 0; i < board.length; i++) {
     if (bombArray.includes(i)) {
-        board[i] = {contents: 'bomb'};
-    }
-    else {
-        board[i] = {contents: 'blank'};
+      board[i] = { contents: 'bomb' };
+    } else {
+      board[i] = { contents: 'blank' };
     }
   }
 
   return board;
 }
+
+const BoardDiv = styled.div`
+  display: grid;
+  grid-template-columns: repeat(8, var(--tile-width));
+  grid-template-rows: repeat(8, var(--tile-width));
+  grid-gap: 0;
+  margin: 0 auto;
+  padding: 0;
+  width: calc(var(--tile-width) * 8);
+  height: calc(var(--tile-width) * 8);
+`;

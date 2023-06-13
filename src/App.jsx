@@ -1,20 +1,27 @@
-import './styles.css'
+import './index.css';
 import Board from './components/Board';
+import BoardHeader from './components/BoardHeader';
+import styled from 'styled-components';
 
-const App = () => {
+export default function App() {
   return (
-    <>
+    <Container>
       <p>
         Emoji Sweeper<span>&#x1F4a3;</span>
       </p>
       <div>
+        <BoardHeader />
         <Board />
       </div>
-    </>
+    </Container>
   );
-};
+}
 
-export default App;
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
 /*
 <p>Bomb &#x1F4a3;</p>
