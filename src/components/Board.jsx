@@ -84,7 +84,7 @@ function getAdjacentBombs(board, index, width, height) {
 }
 
 function getAdjacentTiles(index, width, height) {
-    // Set up array of steps through boardx to get to adjacent tiles
+  // Set up array of steps through board to get to adjacent tiles
   const allDirections = [
     -1,
     1,
@@ -96,7 +96,6 @@ function getAdjacentTiles(index, width, height) {
     -width + 1,
   ];
 
-    // Set up array of adjacent tiles
-    const adjacentTiles = [];
-    
+  // Set up array of adjacent tiles
+  const adjacentTiles = [];
 }
