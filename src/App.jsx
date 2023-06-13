@@ -1,13 +1,14 @@
 const App = () => {
   return (
     <>
-      <p>Emoji Sweeper<span>&#x1F4a3;</span></p>
+      <p>
+        Emoji Sweeper<span>&#x1F4a3;</span>
+      </p>
     </>
   );
 };
 
 export default App;
-
 
 /*
 <p>Bomb &#x1F4a3;</p>
