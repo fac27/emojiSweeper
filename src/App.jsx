@@ -1,5 +1,5 @@
 import './styles.css'
-import Board from './components/Board';
+import Game from './components/Game';
 
 const App = () => {
   return (
@@ -8,7 +8,7 @@ const App = () => {
         Emoji Sweeper<span>&#x1F4a3;</span>
       </p>
       <div>
-        <Board />
+        <Game />
       </div>
     </>
   );
