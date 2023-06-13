@@ -1,0 +1,26 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --tile-width: 50px;
+}
+
+.tile {
+    font-size: 20px;
+    width: var(--tile-width);
+    height: var(--tile-width);
+    border: 1px solid black;
+    border-radius: 4px;;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(234, 234, 234);
+    text-align: center;
+    line-height: var(--tile-width);
+}
+
+.tile:hover {
+    background-color: rgb(200, 200, 200);
+    cursor: pointer;
+}
