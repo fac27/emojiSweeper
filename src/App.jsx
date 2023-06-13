@@ -1,5 +1,5 @@
 import './styles.css'
-import Tile from './components/Tile';
+import Board from './components/Board';
 
 const App = () => {
   return (
@@ -8,8 +8,7 @@ const App = () => {
         Emoji Sweeper<span>&#x1F4a3;</span>
       </p>
       <div>
-      <Tile state={{isBomb: true}} />
-      <Tile state={{isBomb: false}} />
+        <Board />
       </div>
     </>
   );

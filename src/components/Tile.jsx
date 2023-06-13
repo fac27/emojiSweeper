@@ -14,7 +14,7 @@ export default function Tile({state}) {
     
     return (
         <div className="tile" onClick={handleClick} onContextMenu={handleRightClick}>
-            {tileState.isBomb ? '💣' : '🚩'}
+            {tileState.contents == 'bomb' ? '💣' : ''}
         </div>
     )
 }
