@@ -8,12 +8,17 @@ export default function Tile({ state }) {
 
   const handleRightClick = (event) => {
     event.preventDefault();
-    setTileState({ isBomb: !tileState.isBomb });
+    // setTileState({ isBomb: !tileState.isBomb });
   };
+
+  const { contents } = tileState;
+  let display = '';
+  if (contents === 'bomb') display = '💣';
+  if (contents.toString().match(/^[1-8]$/)) display = contents;
 
   return (
     <TileDiv onClick={handleClick} onContextMenu={handleRightClick}>
-      {tileState.contents == 'bomb' ? '💣' : ''}
+      {display}
     </TileDiv>
   );
 }

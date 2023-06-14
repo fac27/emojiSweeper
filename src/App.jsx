@@ -1,6 +1,6 @@
 import './index.css';
-import Board from './components/Board';
 import BoardHeader from './components/BoardHeader';
+import Game from './components/Game';
 import styled from 'styled-components';
 
 export default function App() {
@@ -11,7 +11,7 @@ export default function App() {
       </p>
       <div>
         <BoardHeader />
-        <Board />
+        <Game />
       </div>
     </Container>
   );
