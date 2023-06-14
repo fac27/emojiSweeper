@@ -1,9 +1,16 @@
 import { useState } from 'react';
 import Tile from './Tile';
+import { addAdjacentBombs, getAdjacentTileIndexes } from '../utils/boardHelpers';
 
-export default function Board() {
-  const allBombs = generateBombLocations(8, 8, 10);
-  const board = setUpBoard(64, allBombs);
+export default function Board({ gameState }) {
+  const { width, height, numberOfBombs } = gameState;
+  const numberOfTiles = width * height;
+  const allBombs = generateBombLocations(numberOfTiles, numberOfBombs);
+
+  const board = setUpBoard(numberOfTiles, allBombs);
+
+  addAdjacentBombs(board, width, height);
+
   const allTiles = board.map((tile, index) => (
     <Tile state={tile} key={index}></Tile>
   ));
@@ -11,8 +18,7 @@ export default function Board() {
   return <div className="board">{allTiles}</div>;
 }
 
-function generateBombLocations(width, height, numberOfBombs) {
-  const numberOfTiles = width * height;
+function generateBombLocations(numberOfTiles, numberOfBombs) {
   const allBombs = [];
 
   for (let i = 0; i < numberOfBombs; i++) {
@@ -31,13 +37,25 @@ function setUpBoard(numberOfTiles, bombArray) {
   const board = new Array(numberOfTiles);
 
   for (let i = 0; i < board.length; i++) {
-    if (bombArray.includes(i)) {
-        board[i] = {contents: 'bomb'};
-    }
-    else {
-        board[i] = {contents: 'blank'};
-    }
+    const tileObject = {
+      contents: 'blank',
+      isFlagged: false,
+      isQuestionMark: false,
+      isRevealed: false,
+    };
+    const bombObject = {
+      contents: 'bomb',
+      isFlagged: false,
+      isQuestionMark: false,
+      isRevealed: false,
+    };
+    const tileIsBomb = bombArray.includes(i);
+
+    // If there should be a bomb at this index, place it, otherwise place a tile
+    board[i] = tileIsBomb ? bombObject : tileObject;
   }
 
   return board;
 }
+
+

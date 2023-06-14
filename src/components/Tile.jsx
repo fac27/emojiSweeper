@@ -11,10 +11,15 @@ export default function Tile({state}) {
         event.preventDefault();
         setTileState({isBomb: !tileState.isBomb});
     }
+
+    const {contents} = tileState;
+    let display = '';
+    if (contents === 'bomb')  display = '💣';
+    if (contents.toString().match(/^[1-8]$/))  display = contents;
     
     return (
         <div className="tile" onClick={handleClick} onContextMenu={handleRightClick}>
-            {tileState.contents == 'bomb' ? '💣' : ''}
+            {display}
         </div>
     )
 }
