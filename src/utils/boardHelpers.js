@@ -1,4 +1,25 @@
 /**
+ * Check each tile in the supplied Board array and
+ * add number of adjacent bombs to its tile state object
+ * @param {Array} board - Board array of tile state objects
+ * @param {int} width - Width of board
+ * @param {int} height - Height of board
+ */
+export function addAdjacentBombs(board, width, height) {
+  for (let i = 0; i < board.length; i++) {
+
+    const tile = board[i];
+
+    if (tile.contents !== 'bomb') {
+      const adjacentBombCount = getAdjacentBombs(board, i, width, height);
+      if (adjacentBombCount > 0) {
+        tile.contents = adjacentBombCount;
+      }
+    }
+  }
+}
+
+/**
  * Get the number of bombs in tiles adjacent to the supplied tile index
  * @param {Array} board - Board array of tile state objects
  * @param {int} index - Index of tile on the board to check from
