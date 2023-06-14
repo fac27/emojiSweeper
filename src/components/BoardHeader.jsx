@@ -58,7 +58,6 @@ export default function BoardHeader({ gameState, setGameState }) {
 const Header = styled.header`
   display: flex;
   justify-content: space-between;
-  align-items: center;
   border: 1px solid black;
   border-radius: 4px;
   padding: 1rem;

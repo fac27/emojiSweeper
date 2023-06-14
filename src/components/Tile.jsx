@@ -36,8 +36,7 @@ export default function Tile({ state, board, index, gameState }) {
 
 const TileDiv = styled.div`
   font-size: 20px;
-  width: var(--tile-width);
-  height: var(--tile-width);
+  width: 100%;
   border: 1px solid black;
   border-radius: 4px;
   display: inline-block;
