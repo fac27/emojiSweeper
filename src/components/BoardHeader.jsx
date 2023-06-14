@@ -59,12 +59,11 @@ const Header = styled.header`
   display: flex;
   justify-content: space-between;
   border: 1px solid black;
-  border-radius: 4px;
   padding: 1rem;
 `;
 
 const BombNumber = styled.div`
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: #b21f12;
 `;
 
