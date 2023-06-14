@@ -8,9 +8,7 @@ export default function App() {
       <p>
         Emoji Sweeper<span>&#x1F4a3;</span>
       </p>
-      <div>
-        <Game />
-      </div>
+      <Game />
     </Container>
   );
 }
