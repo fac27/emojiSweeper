@@ -7,13 +7,12 @@
  */
 export function addAdjacentBombs(board, width, height) {
   for (let i = 0; i < board.length; i++) {
-
     const tile = board[i];
 
     if (tile.contents !== 'bomb') {
       const adjacentBombCount = getAdjacentBombs(board, i, width, height);
       if (adjacentBombCount > 0) {
-        tile.contents = adjacentBombCount;
+        tile.contents = adjacentBombCount.toString();
       }
     }
   }
@@ -52,7 +51,16 @@ export function getAdjacentBombs(board, index, width, height) {
  */
 export function getAdjacentTileIndexes(index, width, height) {
   // Set up array of steps through board to get to adjacent tiles
-  const allDirections = [-1, 1, width, -width, width - 1, width + 1, -width - 1, -width + 1];
+  const allDirections = [
+    -1,
+    1,
+    width,
+    -width,
+    width - 1,
+    width + 1,
+    -width - 1,
+    -width + 1,
+  ];
 
   // Set up array of adjacent tiles
   const adjacentTiles = [];
@@ -71,3 +79,49 @@ export function getAdjacentTileIndexes(index, width, height) {
   return adjacentTiles;
 }
 
+/**
+ * Set the isRevealed property of all blank tiles surrounding supplied blankTileIndex
+ * @param {Array} board - Board array of tile state objects
+ * @param {int} blankTileIndex - Index of tile on the board to check from
+ * @param {int} width - Width of board
+ * @param {int} height - Height of board
+ * @param {object} tileState 
+ * @param {Function} setTileState 
+ */
+export function revealBlankTiles(board, blankTileIndex, width, height, tileState, setTileState) {
+  // Check that supplied tile is actually blank
+  if (board[blankTileIndex].contents !== 'blank') {
+    throw new Error('Tile is not blank');
+  }
+  const visitedTiles = [];
+
+  // Inner function to recursively iterate through tiles
+  const iterateThroughTiles = function (index) {
+    // Do nothing if we checked this tile already
+    if (visitedTiles.includes(index)) {
+      return;
+    }
+    visitedTiles.push(index);
+
+    const currentTile = board[index];
+
+    // Do nothing if the tile is a bomb
+    if (currentTile.contents === 'bomb') {
+      return;
+    }
+
+    setTileState({
+      ...tileState,
+      isRevealed: true
+    });
+    
+    // If the tile is blank check all of its neighbours
+    if (currentTile.contents === 'blank') {
+      getAdjacentTileIndexes(index, width, height).forEach((index) =>
+        iterateThroughTiles(index)
+      );
+    }
+  };
+
+  iterateThroughTiles(blankTileIndex);
+}

@@ -5,7 +5,7 @@ import {
 } from '../utils/boardHelpers';
 import styled from 'styled-components';
 
-export default function Board({ gameState }) {
+export default function Board({ gameState, setGameState }) {
   const { width, height, numberOfBombs } = gameState;
   const numberOfTiles = width * height;
   const allBombs = generateBombLocations(numberOfTiles, numberOfBombs);
@@ -15,7 +15,7 @@ export default function Board({ gameState }) {
   addAdjacentBombs(board, width, height);
 
   const allTiles = board.map((tile, index) => (
-    <Tile state={tile} key={index}></Tile>
+    <Tile state={tile} gameState={gameState} setGameState={setGameState} board={board} index={index} key={index}></Tile>
   ));
 
   return <BoardDiv>{allTiles}</BoardDiv>;
@@ -40,7 +40,7 @@ function setUpBoard(numberOfTiles, bombArray) {
   const board = new Array(numberOfTiles);
 
   for (let i = 0; i < board.length; i++) {
-    const tileObject = {
+    const blankTileObject = {
       contents: 'blank',
       isFlagged: false,
       isQuestionMark: false,
@@ -55,7 +55,7 @@ function setUpBoard(numberOfTiles, bombArray) {
     const tileIsBomb = bombArray.includes(i);
 
     // If there should be a bomb at this index, place it, otherwise place a tile
-    board[i] = tileIsBomb ? bombObject : tileObject;
+    board[i] = tileIsBomb ? bombObject : blankTileObject;
   }
 
   return board;

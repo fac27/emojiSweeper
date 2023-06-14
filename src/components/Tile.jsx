@@ -1,14 +1,25 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import { revealBlankTiles } from '../utils/boardHelpers';
 
-export default function Tile({ state }) {
+export default function Tile({ state, board, index, gameState }) {
   const [tileState, setTileState] = useState(state);
 
-  const handleClick = (event) => {};
+  const handleClick = (event) => {
+    if (board[index].contents === 'blank') {
+      revealBlankTiles(
+        board,
+        index,
+        gameState.width,
+        gameState.height,
+        tileState,
+        setTileState
+      );
+    }
+  };
 
   const handleRightClick = (event) => {
     event.preventDefault();
-    // setTileState({ isBomb: !tileState.isBomb });
   };
 
   const { contents } = tileState;
