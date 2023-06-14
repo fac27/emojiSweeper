@@ -1,5 +1,4 @@
 import './index.css';
-import BoardHeader from './components/BoardHeader';
 import Game from './components/Game';
 import styled from 'styled-components';
 
@@ -10,7 +9,6 @@ export default function App() {
         Emoji Sweeper<span>&#x1F4a3;</span>
       </p>
       <div>
-        <BoardHeader />
         <Game />
       </div>
     </Container>
