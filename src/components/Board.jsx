@@ -1,6 +1,9 @@
-import { useState } from 'react';
 import Tile from './Tile';
-import { addAdjacentBombs, getAdjacentTileIndexes } from '../utils/boardHelpers';
+import {
+  addAdjacentBombs,
+  getAdjacentTileIndexes,
+} from '../utils/boardHelpers';
+import styled from 'styled-components';
 
 export default function Board({ gameState }) {
   const { width, height, numberOfBombs } = gameState;
@@ -15,7 +18,7 @@ export default function Board({ gameState }) {
     <Tile state={tile} key={index}></Tile>
   ));
 
-  return <div className="board">{allTiles}</div>;
+  return <BoardDiv>{allTiles}</BoardDiv>;
 }
 
 function generateBombLocations(numberOfTiles, numberOfBombs) {
@@ -58,4 +61,13 @@ function setUpBoard(numberOfTiles, bombArray) {
   return board;
 }
 
-
+const BoardDiv = styled.div`
+  display: grid;
+  grid-template-columns: repeat(8, var(--tile-width));
+  grid-template-rows: repeat(8, var(--tile-width));
+  grid-gap: 0;
+  margin: 0 auto;
+  padding: 0;
+  width: calc(var(--tile-width) * 8);
+  height: calc(var(--tile-width) * 8);
+`;
