@@ -38,13 +38,11 @@ const TileDiv = styled.div`
   font-size: 20px;
   width: 100%;
   border: 1px solid black;
-  border-radius: 4px;
   display: inline-block;
   margin: 0;
   padding: 0;
   background-color: rgb(234, 234, 234);
   text-align: center;
-  line-height: var(--tile-width);
 
   :hover {
     background-color: rgb(200, 200, 200);

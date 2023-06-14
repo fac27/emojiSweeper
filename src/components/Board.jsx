@@ -15,7 +15,13 @@ export default function Board({ gameState, setGameState }) {
   addAdjacentBombs(board, width, height);
 
   const allTiles = board.map((tile, index) => (
-    <Tile state={tile} gameState={gameState} setGameState={setGameState} board={board} index={index} key={index}></Tile>
+    <Tile
+      state={tile}
+      gameState={gameState}
+      setGameState={setGameState}
+      board={board}
+      index={index}
+      key={index}></Tile>
   ));
 
   return <BoardDiv gameState={gameState}>{allTiles}</BoardDiv>;
@@ -63,6 +69,8 @@ function setUpBoard(numberOfTiles, bombArray) {
 
 const BoardDiv = styled.div`
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  grid-gap: 0;
+  grid-template-columns: ${({ gameState }) =>
+    `repeat(${gameState.width}, 1fr)`};
+  grid-template-rows: ${({ gameState }) => `repeat(${gameState.height}, 1fr)`};
+  border: 1px solid black;
 `;

@@ -5,15 +5,13 @@ import styled from 'styled-components';
 export default function App() {
   return (
     <Container>
-      <p>
-        Emoji Sweeper<span>&#x1F4a3;</span>
-      </p>
       <Game />
     </Container>
   );
 }
 
 const Container = styled.div`
+  margin-top: 3rem;
   display: flex;
   flex-direction: column;
   align-items: center;
