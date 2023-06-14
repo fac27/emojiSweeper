@@ -18,3 +18,6 @@ Run local web server:
 ```terminal
 npm run server
 ```
+
+## Notes
+Project haven't been deployed to netlify yet
