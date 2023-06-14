@@ -2,24 +2,30 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { revealBlankTiles } from '../utils/boardHelpers';
 
-export default function Tile({ state, board, index, gameState }) {
+export default function Tile({ state, board, setBoard, index, gameState }) {
   const [tileState, setTileState] = useState(state);
 
   const handleClick = (event) => {
     if (tileState.isFlagged) {
-      setTileState({...tileState, isFlagged: false, isQuestionMark: true});
+      setTileState({ ...tileState, isFlagged: false, isQuestionMark: true });
       console.log('Flag --> question mark');
       return;
     }
 
     if (tileState.isQuestionMark) {
-      setTileState({...tileState, isFlagged: false, isQuestionMark: false});
+      setTileState({ ...tileState, isFlagged: false, isQuestionMark: false });
       console.log('Question mark --> nothing');
       return;
     }
 
-    setTileState({...tileState, isRevealed: true});
-    console.log('Revealed');
+    //setTileState({...tileState, isRevealed: true});
+    setBoard((prevBoard) => {
+      return [
+        ...prevBoard.slice(0, index),
+        { ...prevBoard[index], isRevealed: true },
+        ...prevBoard.slice(index + 1),
+      ];
+    });
 
     if (tileState.contents === 'blank') {
       revealBlankTiles(
@@ -36,16 +42,16 @@ export default function Tile({ state, board, index, gameState }) {
   const handleRightClick = (event) => {
     event.preventDefault();
     if (tileState.isFlagged) {
-      setTileState({...tileState, isFlagged: false, isQuestionMark: true});
+      setTileState({ ...tileState, isFlagged: false, isQuestionMark: true });
       return;
     }
 
     if (tileState.isQuestionMark) {
-      setTileState({...tileState, isFlagged: false, isQuestionMark: false});
+      setTileState({ ...tileState, isFlagged: false, isQuestionMark: false });
       return;
     }
 
-    setTileState({...tileState, isFlagged: true});
+    setTileState({ ...tileState, isFlagged: true });
   };
 
   const { contents, isFlagged, isQuestionMark, isRevealed } = tileState;
@@ -57,12 +63,16 @@ export default function Tile({ state, board, index, gameState }) {
 
   return (
     <>
-    {isRevealed && <TileDiv onClick={handleClick} onContextMenu={handleRightClick}>
-      {display}
-    </TileDiv>}
-    {!isRevealed && <TileDivCover onClick={handleClick} onContextMenu={handleRightClick}>
-      {display}
-    </TileDivCover>}
+      {isRevealed && (
+        <TileDiv onClick={handleClick} onContextMenu={handleRightClick}>
+          {display}
+        </TileDiv>
+      )}
+      {!isRevealed && (
+        <TileDivCover onClick={handleClick} onContextMenu={handleRightClick}>
+          {display}
+        </TileDivCover>
+      )}
     </>
   );
 }
