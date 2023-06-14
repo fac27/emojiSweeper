@@ -88,18 +88,12 @@ export function getAdjacentTileIndexes(index, width, height) {
  * @param {object} tileState
  * @param {Function} setTileState
  */
-export function revealBlankTiles(
-  board,
-  blankTileIndex,
-  width,
-  height,
-  tileState,
-  setTileState
-) {
+export function revealBlankTiles(board, blankTileIndex, width, height) {
   // Check that supplied tile is actually blank
   if (board[blankTileIndex].contents !== 'blank') {
     throw new Error('Tile is not blank');
   }
+  const revealedTiles = [];
   const visitedTiles = [];
 
   // Inner function to recursively iterate through tiles
@@ -117,21 +111,18 @@ export function revealBlankTiles(
       return;
     }
 
-    // Reveal only if there is no flag or question mark    
-    if (!tileState.isFlagged && !tileState.isQuestionMark) {
-      setTileState({
-        ...tileState,
-        isRevealed: true,
-      });
-    }
+    // Add the index to the list of revealed tiles
+    revealedTiles.push(index);
 
-    // If the tile is blank check all of its neighbours
+    // If the tile is blank, check all of its neighbours
     if (currentTile.contents === 'blank') {
-      getAdjacentTileIndexes(index, width, height).forEach((index) =>
-        iterateThroughTiles(index)
+      getAdjacentTileIndexes(index, width, height).forEach((adjacentIndex) =>
+        iterateThroughTiles(adjacentIndex)
       );
     }
   };
 
   iterateThroughTiles(blankTileIndex);
+
+  return revealedTiles;
 }

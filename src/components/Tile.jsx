@@ -1,24 +1,32 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 import { revealBlankTiles } from '../utils/boardHelpers';
 
 export default function Tile({ state, board, setBoard, index, gameState }) {
-  const [tileState, setTileState] = useState(state);
-
   const handleClick = (event) => {
-    if (tileState.isFlagged) {
-      setTileState({ ...tileState, isFlagged: false, isQuestionMark: true });
+    if (state.isFlagged) {
+      setBoard((prevBoard) => {
+        return [
+          ...prevBoard.slice(0, index),
+          { ...prevBoard[index], isFlagged: false, isQuestionMark: true },
+          ...prevBoard.slice(index + 1),
+        ];
+      });
       console.log('Flag --> question mark');
       return;
     }
 
-    if (tileState.isQuestionMark) {
-      setTileState({ ...tileState, isFlagged: false, isQuestionMark: false });
+    if (state.isQuestionMark) {
+      setBoard((prevBoard) => {
+        return [
+          ...prevBoard.slice(0, index),
+          { ...prevBoard[index], isFlagged: false, isQuestionMark: false },
+          ...prevBoard.slice(index + 1),
+        ];
+      });
       console.log('Question mark --> nothing');
       return;
     }
 
-    //setTileState({...tileState, isRevealed: true});
     setBoard((prevBoard) => {
       return [
         ...prevBoard.slice(0, index),
@@ -27,34 +35,58 @@ export default function Tile({ state, board, setBoard, index, gameState }) {
       ];
     });
 
-    if (tileState.contents === 'blank') {
-      revealBlankTiles(
+    if (state.contents === 'blank') {
+      const revealedTiles = revealBlankTiles(
         board,
         index,
         gameState.width,
-        gameState.height,
-        tileState,
-        setTileState
+        gameState.height
       );
+      
+      setBoard((prevBoard) => {
+        const newBoard = [...prevBoard];
+        revealedTiles.forEach((tileIndex) => {
+          newBoard[tileIndex] = { ...newBoard[tileIndex], isRevealed: true };
+        });
+        return newBoard;
+      });
     }
   };
 
   const handleRightClick = (event) => {
     event.preventDefault();
-    if (tileState.isFlagged) {
-      setTileState({ ...tileState, isFlagged: false, isQuestionMark: true });
+    if (state.isFlagged) {
+      setBoard((prevBoard) => {
+        return [
+          ...prevBoard.slice(0, index),
+          { ...prevBoard[index], isFlagged: false, isQuestionMark: true },
+          ...prevBoard.slice(index + 1),
+        ];
+      });
       return;
     }
 
-    if (tileState.isQuestionMark) {
-      setTileState({ ...tileState, isFlagged: false, isQuestionMark: false });
+    if (state.isQuestionMark) {
+      setBoard((prevBoard) => {
+        return [
+          ...prevBoard.slice(0, index),
+          { ...prevBoard[index], isFlagged: false, isQuestionMark: false },
+          ...prevBoard.slice(index + 1),
+        ];
+      });
       return;
     }
 
-    setTileState({ ...tileState, isFlagged: true });
+    setBoard((prevBoard) => {
+      return [
+        ...prevBoard.slice(0, index),
+        { ...prevBoard[index], isFlagged: true },
+        ...prevBoard.slice(index + 1),
+      ];
+    });
   };
 
-  const { contents, isFlagged, isQuestionMark, isRevealed } = tileState;
+  const { contents, isFlagged, isQuestionMark, isRevealed } = state;
   let display = '';
   if (contents === 'bomb' && isRevealed) display = '💣';
   if (contents.toString().match(/^[1-8]$/) && isRevealed) display = contents;

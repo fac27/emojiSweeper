@@ -15,15 +15,24 @@ export default function Board({ gameState, setGameState }) {
 
   addAdjacentBombs(board, width, height);
 
+  const handleBoardUpdate = (index) => {
+    setBoard((prevBoard) => {
+      return [
+        ...prevBoard.slice(0, index),
+        { ...prevBoard[index], isRevealed: true },
+        ...prevBoard.slice(index + 1),
+      ];
+    });
+  };
   const allTiles = board.map((tile, index) => (
     <Tile
       state={tile}
-      gameState={gameState}
-      setGameState={setGameState}
       board={board}
       setBoard={setBoard}
       index={index}
       key={index}
+      gameState={gameState}
+      handleBoardUpdate={handleBoardUpdate} // Pass handleBoardUpdate as prop
     ></Tile>
   ));
 
