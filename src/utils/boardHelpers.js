@@ -117,7 +117,7 @@ export function revealBlankTiles(
       return;
     }
 
-    // Reveal only if there is no flag or question mark
+    // Reveal only if there is no flag or question mark    
     if (!tileState.isFlagged && !tileState.isQuestionMark) {
       setTileState({
         ...tileState,

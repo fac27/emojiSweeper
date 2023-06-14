@@ -6,7 +6,22 @@ export default function Tile({ state, board, index, gameState }) {
   const [tileState, setTileState] = useState(state);
 
   const handleClick = (event) => {
-    if (board[index].contents === 'blank') {
+    if (tileState.isFlagged) {
+      setTileState({...tileState, isFlagged: false, isQuestionMark: true});
+      console.log('Flag --> question mark');
+      return;
+    }
+
+    if (tileState.isQuestionMark) {
+      setTileState({...tileState, isFlagged: false, isQuestionMark: false});
+      console.log('Question mark --> nothing');
+      return;
+    }
+
+    setTileState({...tileState, isRevealed: true});
+    console.log('Revealed');
+
+    if (tileState.contents === 'blank') {
       revealBlankTiles(
         board,
         index,
@@ -20,17 +35,35 @@ export default function Tile({ state, board, index, gameState }) {
 
   const handleRightClick = (event) => {
     event.preventDefault();
+    if (tileState.isFlagged) {
+      setTileState({...tileState, isFlagged: false, isQuestionMark: true});
+      return;
+    }
+
+    if (tileState.isQuestionMark) {
+      setTileState({...tileState, isFlagged: false, isQuestionMark: false});
+      return;
+    }
+
+    setTileState({...tileState, isFlagged: true});
   };
 
-  const { contents } = tileState;
+  const { contents, isFlagged, isQuestionMark, isRevealed } = tileState;
   let display = '';
-  if (contents === 'bomb') display = '💣';
-  if (contents.toString().match(/^[1-8]$/)) display = contents;
+  if (contents === 'bomb' && isRevealed) display = '💣';
+  if (contents.toString().match(/^[1-8]$/) && isRevealed) display = contents;
+  if (isFlagged) display = '🚩';
+  if (isQuestionMark) display = '?';
 
   return (
-    <TileDiv onClick={handleClick} onContextMenu={handleRightClick}>
+    <>
+    {isRevealed && <TileDiv onClick={handleClick} onContextMenu={handleRightClick}>
       {display}
-    </TileDiv>
+    </TileDiv>}
+    {!isRevealed && <TileDivCover onClick={handleClick} onContextMenu={handleRightClick}>
+      {display}
+    </TileDivCover>}
+    </>
   );
 }
 
@@ -38,7 +71,7 @@ const TileDiv = styled.div`
   font-size: 20px;
   width: var(--tile-width);
   height: var(--tile-width);
-  border: 1px solid black;
+  border: 1px solid #aaa;
   border-radius: 4px;
   display: inline-block;
   margin: 0;
@@ -47,6 +80,28 @@ const TileDiv = styled.div`
   text-align: center;
   line-height: var(--tile-width);
 
+  :hover {
+    background-color: rgb(200, 200, 200);
+    cursor: pointer;
+  }
+`;
+
+const TileDivCover = styled.div`
+  font-size: 20px;
+  width: var(--tile-width);
+  height: var(--tile-width);
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  border-right: 1px solid rgb(200, 200, 200);
+  border-bottom: 1px solid rgb(200, 200, 200);
+  border-radius: 4px;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  background-color: rgb(234, 234, 234);
+  text-align: center;
+  line-height: var(--tile-width);
+  box-shadow: inset 0 0 2px 2px rgba(0, 0, 0, 0.5);
   :hover {
     background-color: rgb(200, 200, 200);
     cursor: pointer;
