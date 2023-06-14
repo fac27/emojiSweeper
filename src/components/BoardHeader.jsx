@@ -1,12 +1,10 @@
 import styled from 'styled-components';
 import { useState, useEffect } from 'react';
 
-export default function BoardHeader() {
-  const [isGameLost, setIsGameLost] = useState(false);
+export default function BoardHeader({ gameState, setGameState }) {
   const [onesPlace, setOnesPlace] = useState(0);
   const [tensPlace, setTensPlace] = useState(0);
   const [hundredsPlace, setHundredsPlace] = useState(0);
-  const [isTimerRunning, setIsTimerRunning] = useState(false);
 
   useEffect(() => {
     let timer = null;
@@ -25,7 +23,7 @@ export default function BoardHeader() {
       }, 1000);
     };
 
-    if (isTimerRunning) {
+    if (gameState.isGameStarted) {
       startTimer();
     }
 
@@ -34,30 +32,25 @@ export default function BoardHeader() {
         clearInterval(timer);
       }
     };
-  }, [isTimerRunning, onesPlace, tensPlace]);
+  }, [onesPlace, tensPlace]);
 
-  const handleGameRestart = () => {
-    setIsGameLost((prevValue) => !prevValue);
-  };
-
-  const handleTimerToggle = () => {
-    setIsTimerRunning((prevValue) => !prevValue);
+  const handleIsGameOver = () => {
+    setGameState((prevValues) => {
+      return { ...prevValues, isGameOver: !prevValues.isGameOver };
+    });
   };
 
   return (
     <Header>
-      <BombNumber>010</BombNumber>
-      <EmojiButton onClick={handleGameRestart}>
-        {isGameLost ? '😵' : '🙂'}
+      <BombNumber>0{gameState.numberOfBombs}</BombNumber>
+      <EmojiButton onClick={handleIsGameOver}>
+        {gameState.isGameOver ? '😵' : '🙂'}
       </EmojiButton>
       <Timer>
         <span>{hundredsPlace}</span>
         <span>{tensPlace}</span>
         <span>{onesPlace}</span>
       </Timer>
-      <TimerButton onClick={handleTimerToggle}>
-        {isTimerRunning ? 'Stop Timer' : 'Start Timer'}
-      </TimerButton>
     </Header>
   );
 }
@@ -83,5 +76,3 @@ const EmojiButton = styled.button`
 `;
 
 const Timer = styled(BombNumber)``;
-
-const TimerButton = styled.button``;
