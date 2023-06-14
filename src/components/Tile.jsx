@@ -1,20 +1,25 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { revealBlankTiles } from '../utils/boardHelpers';
-import { loadConfigFromFile } from 'vite';
 
-export default function Tile({ state, board }) {
+export default function Tile({ state, board, index, gameState }) {
   const [tileState, setTileState] = useState(state);
 
   const handleClick = (event) => {
-    // if(tileState.contents === 'blank') {
-    //   revealBlankTiles(board, event.target.key);
-    console.log(event.target);
+    if (board[index].contents === 'blank') {
+      revealBlankTiles(
+        board,
+        index,
+        gameState.width,
+        gameState.height,
+        tileState,
+        setTileState
+      );
+    }
   };
 
   const handleRightClick = (event) => {
     event.preventDefault();
-    // setTileState({ isBomb: !tileState.isBomb });
   };
 
   const { contents } = tileState;
@@ -28,23 +33,6 @@ export default function Tile({ state, board }) {
     </TileDiv>
   );
 }
-
-// <Tile state={tile} gameState={gameState} setGameState={setGameState} key={index}></Tile>
-
-// Tile state object
-// =================
-// const blankTileObject = {
-//   contents: 'blank',
-//   isFlagged: false,
-//   isQuestionMark: false,
-//   isRevealed: false,
-// };
-// const bombObject = {
-//   contents: 'bomb',
-//   isFlagged: false,
-//   isQuestionMark: false,
-//   isRevealed: false,
-// };
 
 const TileDiv = styled.div`
   font-size: 20px;

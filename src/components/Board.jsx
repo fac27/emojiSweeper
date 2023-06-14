@@ -15,7 +15,7 @@ export default function Board({ gameState, setGameState }) {
   addAdjacentBombs(board, width, height);
 
   const allTiles = board.map((tile, index) => (
-    <Tile state={tile} gameState={gameState} setGameState={setGameState} board={board} key={index}></Tile>
+    <Tile state={tile} gameState={gameState} setGameState={setGameState} board={board} index={index} key={index}></Tile>
   ));
 
   return <BoardDiv>{allTiles}</BoardDiv>;
