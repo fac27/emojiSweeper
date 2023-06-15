@@ -20,5 +20,5 @@ npm run server
 ```
 
 ## Notes
-Functionality is not complete; no user interaction yet
-Project haven't been deployed to netlify yet
+- Functionality is not complete; no user interaction yet
+- Project haven't been deployed to netlify yet
