@@ -36,7 +36,7 @@ export default function Board({ gameState, setGameState }) {
     ></Tile>
   ));
 
-  return <BoardDiv>{allTiles}</BoardDiv>;
+  return <BoardDiv gameState={gameState}>{allTiles}</BoardDiv>;
 }
 
 function generateBombLocations(numberOfTiles, numberOfBombs) {
@@ -81,11 +81,8 @@ function setUpBoard(numberOfTiles, bombArray) {
 
 const BoardDiv = styled.div`
   display: grid;
-  grid-template-columns: repeat(8, var(--tile-width));
-  grid-template-rows: repeat(8, var(--tile-width));
-  grid-gap: 0;
-  margin: 0 auto;
-  padding: 0;
-  width: calc(var(--tile-width) * 8);
-  height: calc(var(--tile-width) * 8);
+  grid-template-columns: ${({ gameState }) =>
+    `repeat(${gameState.width}, 1fr)`};
+  grid-template-rows: ${({ gameState }) => `repeat(${gameState.height}, 1fr)`};
+  border: 1px solid black;
 `;

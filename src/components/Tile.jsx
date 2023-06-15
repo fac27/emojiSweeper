@@ -120,7 +120,6 @@ const TileDiv = styled.div`
   padding: 0;
   background-color: rgb(234, 234, 234);
   text-align: center;
-  line-height: var(--tile-width);
 
   :hover {
     background-color: rgb(200, 200, 200);
