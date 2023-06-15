@@ -10,6 +10,7 @@ export default function Game() {
     width: 16,
     height: 16,
     numberOfBombs: 18,
+    numberOfFlags: 0,
     isGameOver: false,
     isGameWon: false,
     isGameStarted: false,

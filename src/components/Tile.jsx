@@ -1,15 +1,33 @@
 import styled from 'styled-components';
 import { revealBlankTiles } from '../utils/boardHelpers';
 
-export default function Tile({ state, board, setBoard, index, gameState, setGameState }) {
+export default function Tile({
+  state,
+  board,
+  setBoard,
+  index,
+  gameState,
+  setGameState,
+}) {
   const handleClick = (event) => {
-    if(!gameState.isGameStarted) {
+
+    if(state.isRevealed) return;
+
+    if (!gameState.isGameStarted) {
       setGameState((prevGameState) => {
         return { ...prevGameState, isGameStarted: true };
       });
     }
 
     if (state.isFlagged) {
+      console.log(`Subtracting flag at tile ${index}`);
+      setGameState((prevGameState) => {
+        return {
+          ...prevGameState,
+          numberOfFlags: prevGameState.numberOfFlags - 1,
+        };
+      });
+
       setBoard((prevBoard) => {
         return [
           ...prevBoard.slice(0, index),
@@ -17,7 +35,7 @@ export default function Tile({ state, board, setBoard, index, gameState, setGame
           ...prevBoard.slice(index + 1),
         ];
       });
-      console.log('Flag --> question mark');
+
       return;
     }
 
@@ -47,7 +65,7 @@ export default function Tile({ state, board, setBoard, index, gameState, setGame
         gameState.width,
         gameState.height
       );
-      
+
       setBoard((prevBoard) => {
         const newBoard = [...prevBoard];
         revealedTiles.forEach((tileIndex) => {
@@ -59,8 +77,23 @@ export default function Tile({ state, board, setBoard, index, gameState, setGame
   };
 
   const handleRightClick = (event) => {
+    if(state.isRevealed) return;
+
     event.preventDefault();
+    if (!gameState.isGameStarted) {
+      setGameState((prevGameState) => {
+        return { ...prevGameState, isGameStarted: true };
+      });
+    }
+
+    console.log(`Subtracting flag at tile ${index}`);
     if (state.isFlagged) {
+      setGameState((prevGameState) => {
+        return {
+          ...prevGameState,
+          numberOfFlags: prevGameState.numberOfFlags -1,
+        };
+      });
       setBoard((prevBoard) => {
         return [
           ...prevBoard.slice(0, index),
@@ -68,6 +101,7 @@ export default function Tile({ state, board, setBoard, index, gameState, setGame
           ...prevBoard.slice(index + 1),
         ];
       });
+
       return;
     }
 
@@ -81,7 +115,16 @@ export default function Tile({ state, board, setBoard, index, gameState, setGame
       });
       return;
     }
+    
+    if(gameState.numberOfFlags === gameState.numberOfBombs) return;
 
+    console.log(`Adding flag at tile ${index}`);
+    setGameState((prevGameState) => {
+      return {
+        ...prevGameState,
+        numberOfFlags: prevGameState.numberOfFlags + 1,
+      };
+    });
     setBoard((prevBoard) => {
       return [
         ...prevBoard.slice(0, index),
@@ -89,6 +132,7 @@ export default function Tile({ state, board, setBoard, index, gameState, setGame
         ...prevBoard.slice(index + 1),
       ];
     });
+
   };
 
   const { contents, isFlagged, isQuestionMark, isRevealed } = state;

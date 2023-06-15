@@ -41,7 +41,7 @@ export default function BoardHeader({ gameState, setGameState }) {
 
   return (
     <Header>
-      <BombNumber>0{gameState.numberOfBombs}</BombNumber>
+      <BombNumber>0{gameState.numberOfBombs - gameState.numberOfFlags}</BombNumber>
       <EmojiButton onClick={handleIsGameOver}>
         {gameState.isGameOver ? '😵' : '🙂'}
       </EmojiButton>
