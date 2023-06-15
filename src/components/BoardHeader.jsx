@@ -32,8 +32,7 @@ export default function BoardHeader({ gameState, setGameState }) {
         clearInterval(timer);
       }
     };
-  }, [onesPlace, tensPlace]);
-
+  }, [onesPlace, tensPlace, gameState]);
   const handleIsGameOver = () => {
     setGameState((prevValues) => {
       return { ...prevValues, isGameOver: !prevValues.isGameOver };
@@ -42,7 +41,7 @@ export default function BoardHeader({ gameState, setGameState }) {
 
   return (
     <Header>
-      <BombNumber>0{gameState.numberOfBombs}</BombNumber>
+      <BombNumber>0{gameState.numberOfBombs - gameState.numberOfFlags}</BombNumber>
       <EmojiButton onClick={handleIsGameOver}>
         {gameState.isGameOver ? '😵' : '🙂'}
       </EmojiButton>

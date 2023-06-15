@@ -32,6 +32,7 @@ export default function Board({ gameState, setGameState }) {
       index={index}
       key={index}
       gameState={gameState}
+      setGameState={setGameState}
       handleBoardUpdate={handleBoardUpdate} // Pass handleBoardUpdate as prop
     ></Tile>
   ));
