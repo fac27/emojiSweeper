@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Tile from './Tile';
 import {
   addAdjacentBombs,
@@ -10,18 +11,29 @@ export default function Board({ gameState, setGameState }) {
   const numberOfTiles = width * height;
   const allBombs = generateBombLocations(numberOfTiles, numberOfBombs);
 
-  const board = setUpBoard(numberOfTiles, allBombs);
+  const [board, setBoard] = useState(setUpBoard(numberOfTiles, allBombs));
 
   addAdjacentBombs(board, width, height);
 
+  const handleBoardUpdate = (index) => {
+    setBoard((prevBoard) => {
+      return [
+        ...prevBoard.slice(0, index),
+        { ...prevBoard[index], isRevealed: true },
+        ...prevBoard.slice(index + 1),
+      ];
+    });
+  };
   const allTiles = board.map((tile, index) => (
     <Tile
       state={tile}
-      gameState={gameState}
-      setGameState={setGameState}
       board={board}
+      setBoard={setBoard}
       index={index}
-      key={index}></Tile>
+      key={index}
+      gameState={gameState}
+      handleBoardUpdate={handleBoardUpdate} // Pass handleBoardUpdate as prop
+    ></Tile>
   ));
 
   return <BoardDiv gameState={gameState}>{allTiles}</BoardDiv>;
