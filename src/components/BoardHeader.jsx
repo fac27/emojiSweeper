@@ -32,8 +32,7 @@ export default function BoardHeader({ gameState, setGameState }) {
         clearInterval(timer);
       }
     };
-  }, [onesPlace, tensPlace]);
-
+  }, [onesPlace, tensPlace, gameState]);
   const handleIsGameOver = () => {
     setGameState((prevValues) => {
       return { ...prevValues, isGameOver: !prevValues.isGameOver };

@@ -1,8 +1,14 @@
 import styled from 'styled-components';
 import { revealBlankTiles } from '../utils/boardHelpers';
 
-export default function Tile({ state, board, setBoard, index, gameState }) {
+export default function Tile({ state, board, setBoard, index, gameState, setGameState }) {
   const handleClick = (event) => {
+    if(!gameState.isGameStarted) {
+      setGameState((prevGameState) => {
+        return { ...prevGameState, isGameStarted: true };
+      });
+    }
+
     if (state.isFlagged) {
       setBoard((prevBoard) => {
         return [
@@ -23,7 +29,6 @@ export default function Tile({ state, board, setBoard, index, gameState }) {
           ...prevBoard.slice(index + 1),
         ];
       });
-      console.log('Question mark --> nothing');
       return;
     }
 
